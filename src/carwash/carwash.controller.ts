@@ -14,6 +14,7 @@ export class CarwashController {
 
   @Post()
   create(@Body() createItemDto: CreateCarwashDto): string {
+    this.carwashService.addNew(createItemDto);
     return `create new carwash with name ${createItemDto.name} and
     desc: ${createItemDto.desc}.`;
   }

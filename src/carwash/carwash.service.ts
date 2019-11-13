@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Carwash } from './interfaces/carwash.interface';
+import { CreateCarwashDto } from './dto/create-carwash.dto'
 
 @Injectable()
 export class CarwashService {
@@ -25,7 +26,14 @@ export class CarwashService {
   }
 
   findOne(id: string): Carwash {
-    return this.carwash.find(carwash => carwash.id === id);
+    const carwash = this.carwash.find(carwash => carwash.id === id);
+    if (!carwash) throw new NotFoundException('Product not found');
+    return {...carwash};
+  }
+
+  addNew(carwash: CreateCarwashDto):{result: string} {
+    this.carwash.push(carwash);
+    return {result: 'Done.'};
   }
 
 }
