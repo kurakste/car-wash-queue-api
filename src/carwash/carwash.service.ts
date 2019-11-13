@@ -20,6 +20,21 @@ export class CarwashService {
       lng: 13.345
     }
   ]
+  
+  private findCarwash(id: string): [number, Carwash] {
+    const indx = this.carwash.findIndex(el=>el.id===id);
+    const carwash = this.carwash[indx];
+    if (!carwash) throw new NotFoundException('Product not found');
+    return [indx, carwash];
+  }
+
+  private deleteCarwash(id: string): null {
+    const indx = this.carwash.findIndex(el=>el.id===id);
+    const carwash = this.carwash[indx];
+    if (!carwash) throw new NotFoundException('Product not found');
+    this.carwash.splice(indx, 1);
+    return null;
+  }
 
   findAll(): Carwash[] {
     return this.carwash;
@@ -44,16 +59,15 @@ export class CarwashService {
     lng: number
   ): null {
     const carwash = this.carwash.find(carwash => carwash.id === id);
-    console.log('==================', carwash);
-    if (!carwash) throw new NotFoundException('Product not found');
     if (name) carwash.name = name;
     if (desc) carwash.desc = desc;
     if (lng) carwash.lng = lng;
     if (lat) carwash.lat = lat;
-    console.log('------>', carwash)
     return null;
   }
 
-  addNe
-
+  delete(id: string): null {
+    this.deleteCarwash(id);
+    return null;
+  }
 }

@@ -26,6 +26,7 @@ export class CarwashController {
 
   @Delete(':id')
   delete(@Param('id') id): string {
+    this.carwashService.delete(id);
     return `Delete id: ${id}`;
   }
 
