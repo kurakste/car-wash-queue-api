@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
 import { CreateCarwashDto } from './dto/create-carwash.dto';
 import { CarwashService } from './carwash.service';
 import { Carwash } from './interfaces/carwash.interface'; 
@@ -29,7 +29,7 @@ export class CarwashController {
     return `Delete id: ${id}`;
   }
 
-  @Put(':id')
+  @Patch(':id')
   update(@Param('id') id, @Body() updateItemDto: CreateCarwashDto): string {
     console.log('------>', updateItemDto)
     return `update carwash id: ${id}, name: ${updateItemDto.name}, desc: ${updateItemDto.desc}`;
