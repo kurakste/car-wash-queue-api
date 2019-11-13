@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
 import { CreateCarwashDto } from './dto/create-carwash.dto';
 import { CarwashService } from './carwash.service';
-import { Carwash } from './interfaces/carwash.interface'; 
+import { Carwash } from './interfaces/carwash.interface';
 
 @Controller('carwash')
 export class CarwashController {
-  constructor(private readonly carwashService: CarwashService) {}
+  constructor(private readonly carwashService: CarwashService) { }
 
   @Get()
   findAll(): Carwash[] {
@@ -30,9 +30,15 @@ export class CarwashController {
   }
 
   @Patch(':id')
-  update(@Param('id') id, @Body() updateItemDto: CreateCarwashDto): string {
-    console.log('------>', updateItemDto)
-    return `update carwash id: ${id}, name: ${updateItemDto.name}, desc: ${updateItemDto.desc}`;
+  update(
+    @Param('id') id,
+    @Body('name') name: string,
+    @Body('desc') desc: string,
+    @Body('lat') lat: number,
+    @Body('lng') lng: number,
+  ): string {
+    this.carwashService.patchCarwash(id, name, desc, lat, lng);
+    return `update carwash id: ${id}`;
   }
 
 }

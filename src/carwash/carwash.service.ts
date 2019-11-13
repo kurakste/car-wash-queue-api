@@ -28,12 +28,32 @@ export class CarwashService {
   findOne(id: string): Carwash {
     const carwash = this.carwash.find(carwash => carwash.id === id);
     if (!carwash) throw new NotFoundException('Product not found');
-    return {...carwash};
+    return { ...carwash };
   }
 
-  addNew(carwash: CreateCarwashDto):{result: string} {
+  addNew(carwash: CreateCarwashDto): { result: string } {
     this.carwash.push(carwash);
-    return {result: 'Done.'};
+    return { result: 'Done.' };
   }
+
+  patchCarwash(
+    id: string,
+    name: string,
+    desc: string,
+    lat: number,
+    lng: number
+  ): null {
+    const carwash = this.carwash.find(carwash => carwash.id === id);
+    console.log('==================', carwash);
+    if (!carwash) throw new NotFoundException('Product not found');
+    if (name) carwash.name = name;
+    if (desc) carwash.desc = desc;
+    if (lng) carwash.lng = lng;
+    if (lat) carwash.lat = lat;
+    console.log('------>', carwash)
+    return null;
+  }
+
+  addNe
 
 }
