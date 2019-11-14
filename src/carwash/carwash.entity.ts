@@ -13,10 +13,10 @@ export class CarwashEntity {
   @Column('text') 
   desc: string;
   
-  // @Column('number') 
-  // lat: number;
+  @Column('numeric') 
+  lat: number;
 
-  // @Column('number') 
-  // lng: number;
+  @Column('numeric') 
+  lng: number;
 
 }

@@ -8,19 +8,19 @@ export class CarwashController {
   constructor(private readonly carwashService: CarwashService) { }
 
   @Get()
-  findAll(): Carwash[] {
+  findAll(){
     return this.carwashService.findAll();
   }
 
   @Post()
-  create(@Body() createItemDto: CreateCarwashDto): string {
-    this.carwashService.addNew(createItemDto);
+  create(@Body() createItemDto: CreateCarwashDto) {
+    this.carwashService.addNew(createItemDto)
     return `create new carwash with name ${createItemDto.name} and
     desc: ${createItemDto.desc}.`;
   }
 
   @Get(':id')
-  findOne(@Param('id') id): Carwash {
+  findOne(@Param('id') id) {
     return this.carwashService.findOne(id);
   }
 

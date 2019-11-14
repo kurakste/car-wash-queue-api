@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { CarwashEntity } from './carwash.entity';
 import { CarwashController } from './carwash.controller';
 import { CarwashService } from './carwash.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { CarwashEntity } from './carwash.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CarwashEntity])],
