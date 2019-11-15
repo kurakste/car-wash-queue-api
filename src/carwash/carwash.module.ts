@@ -9,6 +9,5 @@ import { CarwashService } from './carwash.service';
   imports: [TypeOrmModule.forFeature([CarwashEntity])],
   providers: [ CarwashService ],
   controllers: [ CarwashController ],
-  exports: [CarwashService]
 })
 export class CarwashModule {};

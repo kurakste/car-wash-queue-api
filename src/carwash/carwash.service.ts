@@ -1,21 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 import { Carwash as CarwashInterface } from './interfaces/carwash.interface';
 import { CreateCarwashDto } from './dto/create-carwash.dto';
 import { CarwashEntity } from './carwash.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CarwashService {
   constructor(
     @InjectRepository(CarwashEntity)
-    private carwashRepository: Repository<CarwashEntity>
+    private readonly carwashRepository: Repository<CarwashEntity>
   ) { }
 
 
   async findAll() {
-    return await this.carwashRepository.find();
+    // return await this.carwashRepository.find();
   }
 
   async findOne(id: string) {

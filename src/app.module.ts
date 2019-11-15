@@ -8,7 +8,7 @@ import { CarwashModule } from './carwash/carwash.module';
 
 @Module({
   imports: [ TypeOrmModule.forRoot(), CarwashModule],
-  controllers: [AppController, CarwashController],
-  providers: [AppService, CarwashService],
+  controllers: [AppController ],
+  providers: [AppService ],
 })
 export class AppModule {}
