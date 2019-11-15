@@ -15,7 +15,7 @@ export class CarwashService {
 
 
   async findAll() {
-    // return await this.carwashRepository.find();
+    return await this.carwashRepository.find();
   }
 
   async findOne(id: string) {
