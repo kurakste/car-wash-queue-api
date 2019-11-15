@@ -8,7 +8,7 @@ export class CarwashController {
   constructor(private readonly carwashService: CarwashService) { }
 
   @Get()
-  findAll(){
+  findAll() {
     return this.carwashService.findAll();
   }
 
@@ -25,9 +25,13 @@ export class CarwashController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id): string {
-    this.carwashService.delete(id);
-    return `Delete id: ${id}`;
+  async delete(@Param('id') id) {
+    try {
+      await this.carwashService.delete(id);
+      return `Delete id: ${id}`;
+    } catch (err) {
+      return `Error: ${err.message}`;
+    }
   }
 
   @Patch(':id')
@@ -38,8 +42,12 @@ export class CarwashController {
     @Body('lat') lat: number,
     @Body('lng') lng: number,
   ): string {
-    this.carwashService.patchCarwash(id, name, desc, lat, lng);
-    return `update carwash id: ${id}`;
+    try {
+      this.carwashService.patchCarwash(id, name, desc, lat, lng);
+      return `update carwash id: ${id}`;
+    } catch (err) {
+      return `error: ${err.message}`
+    }
   }
 
 }

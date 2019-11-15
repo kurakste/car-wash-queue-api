@@ -46,7 +46,12 @@ export class CarwashService {
     return await this.carwashRepository.findOne({ id });
   }
 
-  delete(id: string): null {
-    return null;
+  async delete(id: string): Promise<string> {
+    const carwash = await this.carwashRepository.findOne({
+      where: { id },
+    });
+    if (!carwash) throw new Error('Item not found');
+    await this.carwashRepository.remove(carwash);
+    return 'done';
   }
 }
