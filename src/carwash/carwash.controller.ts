@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch, UseFilters } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, UseFilters, UsePipes } from '@nestjs/common';
 import { CreateCarwashDto } from './dto/create-carwash.dto';
 import { CarwashService } from './carwash.service';
-import { Carwash } from './interfaces/carwash.interface';
-import { HttpErrorFilter } from 'src/shared/http-error.filter';
+import { ValidationPipe } from '../shared/validation.pipe';
 
 @Controller('carwash')
 export class CarwashController {
@@ -14,6 +13,7 @@ export class CarwashController {
   }
 
   @Post()
+  @UsePipes(new ValidationPipe())
   create(@Body() createItemDto: CreateCarwashDto) {
     this.carwashService.addNew(createItemDto)
     return `create new carwash with name ${createItemDto.name} and
@@ -32,14 +32,9 @@ export class CarwashController {
   }
 
   @Patch(':id')
-  async update(
-    @Param('id') id,
-    @Body('name') name: string,
-    @Body('desc') desc: string,
-    @Body('lat') lat: number,
-    @Body('lng') lng: number,
-  ) {
-    const carwash = await this.carwashService.patchCarwash(id, name, desc, lat, lng);
+  @UsePipes(new ValidationPipe())
+  async update(@Param('id') id: string, @Body() data: Partial<CreateCarwashDto>) {
+    const carwash = await this.carwashService.patchCarwash(id, data);
     return carwash;
   }
 }

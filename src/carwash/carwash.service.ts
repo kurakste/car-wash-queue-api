@@ -33,20 +33,9 @@ export class CarwashService {
   }
 
   async patchCarwash(
-    id: string,
-    name: string,
-    desc: string,
-    lat: number,
-    lng: number
+    id: string, data: Partial<CreateCarwashDto>
   ) {
-    const data = {};
-    if (name) data['name'] = name;
-    if (desc) data['desc'] = desc;
-    if (lat) data['lat'] = lat;
-    if (lng) data['lng'] = lng;
-    const carwash = await this.carwashRepository.findOne({where: {id} });
-    
-    console.log('===================================>', carwash);
+    const carwash = await this.carwashRepository.findOne({ where: { id } });
     if (!carwash) throw new HttpException('Not found.', HttpStatus.NOT_FOUND);
     await this.carwashRepository.update({ id }, data);
     return await this.carwashRepository.findOne({ id });
