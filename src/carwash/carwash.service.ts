@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -19,7 +19,9 @@ export class CarwashService {
   }
 
   async findOne(id: string) {
-    return await this.carwashRepository.findOne({ where: { id } });
+    const carwash = await this.carwashRepository.findOne({ where: { id } });
+    if (!carwash) throw new HttpException('Not found.', HttpStatus.NOT_FOUND);
+    return carwash;
   }
 
   async addNew(
@@ -42,6 +44,10 @@ export class CarwashService {
     if (desc) data['desc'] = desc;
     if (lat) data['lat'] = lat;
     if (lng) data['lng'] = lng;
+    const carwash = await this.carwashRepository.findOne({where: {id} });
+    
+    console.log('===================================>', carwash);
+    if (!carwash) throw new HttpException('Not found.', HttpStatus.NOT_FOUND);
     await this.carwashRepository.update({ id }, data);
     return await this.carwashRepository.findOne({ id });
   }
@@ -50,7 +56,7 @@ export class CarwashService {
     const carwash = await this.carwashRepository.findOne({
       where: { id },
     });
-    if (!carwash) throw new Error('Item not found');
+    if (!carwash) throw new HttpException('Not found!', HttpStatus.NOT_FOUND);
     await this.carwashRepository.remove(carwash);
     return 'done';
   }

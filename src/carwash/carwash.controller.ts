@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, UseFilters } from '@nestjs/common';
 import { CreateCarwashDto } from './dto/create-carwash.dto';
 import { CarwashService } from './carwash.service';
 import { Carwash } from './interfaces/carwash.interface';
+import { HttpErrorFilter } from 'src/shared/http-error.filter';
 
 @Controller('carwash')
 export class CarwashController {
@@ -26,28 +27,20 @@ export class CarwashController {
 
   @Delete(':id')
   async delete(@Param('id') id) {
-    try {
-      await this.carwashService.delete(id);
-      return `Delete id: ${id}`;
-    } catch (err) {
-      return `Error: ${err.message}`;
-    }
+    await this.carwashService.delete(id);
+    return { operation: 'delete', status: 'done' };
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id,
     @Body('name') name: string,
     @Body('desc') desc: string,
     @Body('lat') lat: number,
     @Body('lng') lng: number,
-  ): string {
-    try {
-      this.carwashService.patchCarwash(id, name, desc, lat, lng);
-      return `update carwash id: ${id}`;
-    } catch (err) {
-      return `error: ${err.message}`
-    }
+  ) {
+    const carwash = await this.carwashService.patchCarwash(id, name, desc, lat, lng);
+    return carwash;
   }
-
 }
+
